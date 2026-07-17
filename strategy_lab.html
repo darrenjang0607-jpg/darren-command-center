@@ -1,0 +1,89 @@
+<!doctype html><html lang=ko><head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>Darren Strategy Lab</title>
+<style>
+:root{--bg:#faf9f7;--surf:#fff;--line:#e7e3dd;--ink:#1a1917;--ink-dim:#4b4842;--ink-mute:#8a857c;
+--accent:#b4531f;--green:#1f7a4d;--red:#b23b3b;--amber:#b8791f;--mono:ui-monospace,"SF Mono",Menlo,monospace;
+--pos:#1f7a4d;--neg:#b23b3b;--surf2:#f2efe9}
+@media(prefers-color-scheme:dark){:root{--bg:#16151a;--surf:#1f1e24;--line:#33313b;--ink:#ece9e4;--ink-dim:#b6b1a8;
+--ink-mute:#7f7a72;--accent:#e07a3c;--green:#4cc38a;--red:#e06666;--amber:#e0a94c;--pos:#4cc38a;--neg:#e06666;--surf2:#26252c}}
+:root[data-theme=dark]{--bg:#16151a;--surf:#1f1e24;--line:#33313b;--ink:#ece9e4;--ink-dim:#b6b1a8;--ink-mute:#7f7a72;
+--accent:#e07a3c;--green:#4cc38a;--red:#e06666;--amber:#e0a94c;--pos:#4cc38a;--neg:#e06666;--surf2:#26252c}
+:root[data-theme=light]{--bg:#faf9f7;--surf:#fff;--line:#e7e3dd;--ink:#1a1917;--ink-dim:#4b4842;--ink-mute:#8a857c;
+--accent:#b4531f;--green:#1f7a4d;--red:#b23b3b;--amber:#b8791f;--pos:#1f7a4d;--neg:#b23b3b;--surf2:#f2efe9}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:920px;margin:0 auto;padding:22px 18px 60px}
+a.back{color:var(--ink-mute);text-decoration:none;font-size:12.5px;letter-spacing:.03em}a.back:hover{color:var(--accent)}
+header{margin:14px 0 6px}h1{font-size:23px;margin:0;letter-spacing:-.01em}
+.sub{color:var(--ink-mute);font-size:12.5px;margin-top:4px}
+.pend{display:inline-block;margin-top:10px;padding:4px 11px;border-radius:20px;background:var(--surf2);
+color:var(--amber);font-size:11px;font-weight:700;letter-spacing:.05em;border:1px solid var(--line)}
+section{margin-top:26px}h2{font-size:14px;letter-spacing:.02em;margin:0 0 10px;color:var(--ink-dim);
+text-transform:uppercase;font-weight:700}h2 .n{color:var(--ink-mute);font-family:var(--mono);margin-right:8px;font-size:12px}
+.card{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.chip{display:inline-block;margin:3px 5px 3px 0;padding:4px 9px;border-radius:7px;background:var(--surf2);
+font-size:11.5px;color:var(--ink-dim);border:1px solid var(--line);font-family:var(--mono)}
+.kv{display:grid;grid-template-columns:120px 1fr;gap:6px 14px;font-size:13px;margin-top:8px}
+.kv .k{color:var(--ink-mute)}.kv .v{color:var(--ink);font-family:var(--mono);font-size:12px}
+table{width:100%;border-collapse:collapse;font-size:13px}td,th{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--ink-mute);font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.bk{background:var(--surf);border:1px solid var(--line);border-radius:11px;padding:13px 14px}
+.bk-h{font-weight:700;font-size:13px;letter-spacing:.02em}.bk-sub{color:var(--ink-mute);font-size:12px;margin-top:4px}
+.bk-exp{font-family:var(--mono);font-size:22px;font-weight:720;margin:6px 0 8px}.bk-exp span{font-size:11px;color:var(--ink-mute);margin-left:4px;font-weight:400}
+.bk-row{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-mute);padding:2px 0}.bk-row b{color:var(--ink-dim);font-family:var(--mono)}
+.pos{color:var(--pos)}.neg{color:var(--neg)}
+.lab{background:var(--surf);border:1px solid var(--line);border-radius:11px;padding:14px 15px;margin-bottom:11px}
+.lab-h{display:flex;align-items:center;gap:9px}.lab-h b{font-size:14px}.lab-h .tk{font-family:var(--mono);font-size:11px;color:var(--ink-mute)}
+.lab-r{margin-left:auto;font-family:var(--mono);font-weight:720;font-size:16px}
+.lab-meta{font-size:11.5px;color:var(--ink-mute);margin-top:6px;font-family:var(--mono)}
+.lab-rc{font-size:11px;color:var(--accent);margin-top:6px;letter-spacing:.02em}
+.lab-note{font-size:12.5px;color:var(--ink-dim);margin-top:8px;line-height:1.55}
+ol{margin:0;padding-left:20px}ol li{font-size:13px;margin-bottom:8px;color:var(--ink-dim)}ol li b{color:var(--ink)}
+.warn{margin-top:10px;padding:11px 13px;border-radius:9px;background:var(--surf2);font-size:12.5px;color:var(--ink-dim);border:1px solid var(--line)}
+.foot{margin-top:32px;padding-top:15px;border-top:1px solid var(--line);font-size:11.5px;color:var(--ink-mute);line-height:1.7}
+.foot b{color:var(--ink-dim)}
+.tgl{position:fixed;right:14px;bottom:14px;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);
+background:var(--surf);color:var(--ink);font-size:17px;cursor:pointer}
+</style>
+<script>(function(){try{var t=localStorage.getItem('cc-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+</head><body><div class=wrap>
+<a class=back href="index.html">← Command Center</a>
+<header><h1>Darren Strategy Lab</h1>
+<div class=sub>PBO Continuation · <span class=num>DARREN_PBO_CONTINUATION_V1</span> · LONG · DAILY</div>
+<span class=pend>STRATEGY ENGINE PENDING · 관찰용(매수 추천 아님)</span></header>
+
+<section><h2><span class=n>A</span>전략 규칙 (Config)</h2>
+<div class=card>
+<div style="margin-bottom:6px;color:var(--ink-mute);font-size:12px">Setup 조건</div><span class='chip'>prior_uptrend</span><span class='chip'>continuation_base</span><span class='chip'>hold_20sma_structure</span><span class='chip'>pb_then_cc</span><span class='chip'>rmv_contraction</span><span class='chip'>volume_contraction</span><span class='chip'>rs_hold_or_improve</span><span class='chip'>pbo_tl_definable</span>
+<div class=kv style="margin-top:12px">
+<div class=k>진입</div><div class=v>CC_HIGH_or_PBO_TL_break · CLOSE_or_INTRADAY</div>
+<div class=k>손절(기본)</div><div class=v>ENTRY_CANDLE_LOW · 셋업봉 저가</div>
+<div class=k>관리</div><div class=v>BE +1R · 50%_after_5_candles · 20SMA_undercut_candle_low_break</div>
+<div class=k>계좌 리스크</div><div class=v>RPT 0.5~1.0% = 1R</div>
+</div></div></section>
+
+<section><h2><span class=n>B</span>Market Permission — Recovery Phase → 신규 R 상한</h2>
+<div class=card><table><thead><tr><th>Phase</th><th>신규 R 상한</th><th>의미</th></tr></thead>
+<tbody><tr><td>Phase 0</td><td class=num>0.00R</td><td>신규 자리 아님(Shadow만)</td></tr><tr><td>Phase 1</td><td class=num>0.10R</td><td>시작 관찰</td></tr><tr><td>Phase 2</td><td class=num>0.25R</td><td>부분</td></tr><tr><td>Phase 3</td><td class=num>0.50R</td><td>절반</td></tr><tr><td>Phase 4</td><td class=num>1.00R</td><td>풀</td></tr></tbody></table></div></section>
+
+<section><h2><span class=n>C</span>1차 백테스트 (실거래 원장 · 혼재)</h2>
+<div class=grid><div class='bk'><div class='bk-h'>KR-A</div><div class='bk-exp pos'>+0.609<span>R/거래</span></div><div class='bk-row'><span>완결</span><b>53</b></div><div class='bk-row'><span>승률</span><b>49%</b></div><div class='bk-row'><span>평균승/패</span><b>+2.14 / -0.97R</b></div><div class='bk-row'><span>PF(R)</span><b>2.38</b></div><div class='bk-row'><span>평균보유</span><b>29일</b></div></div><div class='bk'><div class='bk-h'>US-A</div><div class='bk-exp pos'>+0.507<span>R/거래</span></div><div class='bk-row'><span>완결</span><b>19</b></div><div class='bk-row'><span>승률</span><b>53%</b></div><div class='bk-row'><span>평균승/패</span><b>+1.36 / -0.98R</b></div><div class='bk-row'><span>PF(R)</span><b>3.46</b></div><div class='bk-row'><span>평균보유</span><b>27일</b></div></div><div class='bk'><div class='bk-h'>US-B</div><div class='bk-exp neg'>-0.166<span>R/거래</span></div><div class='bk-row'><span>완결</span><b>41</b></div><div class='bk-row'><span>승률</span><b>20%</b></div><div class='bk-row'><span>평균승/패</span><b>+1.60 / -0.97R</b></div><div class='bk-row'><span>PF(R)</span><b>0.66</b></div><div class='bk-row'><span>평균보유</span><b>11일</b></div></div><div class='bk'><div class='bk-h'>US-C</div><div class='bk-exp pos'>+0.027<span>R/거래</span></div><div class='bk-row'><span>완결</span><b>339</b></div><div class='bk-row'><span>승률</span><b>25%</b></div><div class='bk-row'><span>평균승/패</span><b>+2.61 / -0.89R</b></div><div class='bk-row'><span>PF(R)</span><b>1.04</b></div><div class='bk-row'><span>평균보유</span><b>10일</b></div></div><div class='bk'><div class='bk-h'>US-open</div><div class='bk-sub'>완결 0 · 미결 5</div></div></div>
+<div class=warn>⚠ 계좌·타임프레임·셋업 <b>혼재</b> — 'PBO 엣지'가 아니라 '전체 매매 성과'.
+US-C(~250)·KR-B(~24) 미포함. 상세: <span class=num>docs/backtest_first_cut.md</span></div></section>
+
+<section><h2><span class=n>D</span>Calibration Cases (실거래 라벨)</h2>
+<div class='lab'><div class='lab-h'><b>보성파워텍</b><span class='tk'>006910</span><span class='lab-r pos'>+7.03R</span></div><div class='lab-meta'>2026-01-16 · 진입 5830 · 손절 5370 · 시장 UNVERIFIED·Phase None · PBO_CONTINUATION</div><div class='lab-rc'>BREAKOUT_ABOVE_BASE · STRONG_PRIOR_MOVE · RMV_TIGHT · LIQ_GOOD</div><div class='lab-note'>강한 선행상승 후 눌림·횡보(Continuation Base) 상단 돌파. 직전 저항 재도전(상단 X 실패 이력). 시장 스탠스 UNVERIFIED(1월 데이터 없음·차트 정황은 건강한 장 시사). 손절=셋업봉 저가 5,370(당일 저가·1R 7.89%). 결과: +7.03R(원장). 계좌 리스크 ~1R(RPT≈100만) 풀 사이즈 확인.</div></div><div class='lab'><div class='lab-h'><b>에이치이엠파마(HEM파마)</b><span class='tk'>376270</span><span class='lab-r pos'>+8.38R</span></div><div class='lab-meta'>2026-01-22 · 진입 54000 · 손절 50200 · 시장 UNVERIFIED·Phase None · PBO_CONTINUATION</div><div class='lab-rc'>PULLBACK_TO_20SMA · STRONG_PRIOR_MOVE · RMV_TIGHT · LIQUIDITY_FAIL · UNDER_RESISTANCE_56K</div><div class='lab-note'>PBO Continuation · 셋업 캔들 종가 트리거 54,400(실제 체결 54,000) · 손절=진입봉 저가 50,200. 진입 직전 RMV 7.26(VERY TIGHT)=COILED → 진입일 RMV 44.23 상승=Constructive Release(수요 재유입). 시장 스탠스 UNVERIFIED(1월 데이터 없음). 이전 &#x27;RED·Phase0 재량override&#x27; 서사는 미검증 가정이었음 — 정정. 결과: +8.38R(원장).</div></div><div class='lab'><div class='lab-h'><b>LS ELECTRIC(LS일렉트릭)</b><span class='tk'>010120</span><span class='lab-r pos'>+8.99R</span></div><div class='lab-meta'>2026-01-27 · 진입 108200 · 손절 97100 · 시장 UNVERIFIED·Phase None · PBO_CONTINUATION</div><div class='lab-rc'>BREAKOUT_ABOVE_BASE · STRONG_PRIOR_MOVE · LIQ_STRONG · RS_LEADER</div><div class='lab-note'>강한 선행 상승(55k→100k, Oct~Nov) 후 Dec~Jan 20SMA 위 Continuation Base → 돌파 진입. LIQ 988억 STRONG·RS 리더. 결과: +8.99R(원장·208k 청산·104일). ⚠ 손절 97,100 = 베이스 저가(10.26%) — 보성/HEM의 셋업봉 저가(7~8%)보다 넓음. Setup Engine은 셋업봉 저가로 계산 → 실제와 차이. 스탑 규칙 2변형 확정 필요.</div></div>
+<div class=warn></div></section>
+
+<section><h2><span class=n>E</span>코딩 전 미확정 6개 (답해야 엔진 배선)</h2>
+<div class=card><ol><li><b>유동성</b> — 하드 필터 vs 소프트(줄여서라도 진입)? — HEM은 LIQ FAIL인데 진입.</li><li><b>시장 허가(Phase)</b> — 하드 게이트(Phase 0=신규 0) vs 참고(재량)? ← 백테스트 결과 가장 크게 가름.</li><li><b>진입 변형 A/B</b> — 돌파(보성)·눌림지지(HEM)를 한 전략 vs 두 전략(BREAKOUT/PULLBACK) 분리?</li><li><b>트리거 확정</b> — 종가 확정 vs 장중 돌파 순간?</li><li><b>사이징</b> — 항상 풀 1R vs 시장·셋업 등급별 부분(0.25~0.5R)?</li><li><b>관리</b> — 5캔들 50% 스케일이 무조건인지 · 익절 상한(목표가) 유무?</li></ol></div></section>
+
+<div class=foot><b>이건 매수 신호가 아닙니다.</b> PBO Setup Engine 배선 전 초안 — 규칙·시장허가·실거래 성과·미확정 질문을 한 곳에 모은 관찰 자료입니다.<br>
+근거: kr_portfolio/strategy_lab.py · data/trades/ · state/trade_labels_KR.json · docs/strategy_pbo_canonical.md</div>
+</div>
+<button class=tgl onclick="(function(){var d=document.documentElement,c=d.getAttribute('data-theme')==='dark'?'light':'dark';d.setAttribute('data-theme',c);try{localStorage.setItem('cc-theme',c)}catch(e){}})()" title="테마 전환">🌓</button>
+</body></html>
